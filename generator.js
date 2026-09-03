@@ -3,17 +3,25 @@ const path = require('path');
 const Parser = require('rss-parser');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const parser = new Parser();
+// Pasang header User-Agent agar tidak dianggap bot spam
+const parser = new Parser({
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+  },
+  timeout: 10000
+});
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const RSS_URL = 'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en';
+// Gunakan RSS Yahoo News US yang stabil dan tidak memblokir GitHub Actions
+const RSS_URL = 'https://news.yahoo.com/rss/';
 
 async function generateArticles() {
   try {
-    console.log('Fetching US trending news...');
+    console.log('Mengambil berita dari RSS Yahoo News US...');
     const feed = await parser.parseURL(RSS_URL);
     
-    // Ambil 3 berita dulu untuk tes cepat
+    // Ambil 3 berita teratas
     const items = feed.items.slice(0, 3);
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
 
@@ -31,39 +39,33 @@ async function generateArticles() {
 
       const filePath = path.join(postsDir, `${slug}.json`);
       if (fs.existsSync(filePath)) {
-        console.log(`Article already exists, skipping: ${item.title}`);
+        console.log(`Artikel sudah ada, lewati: ${item.title}`);
         continue;
       }
 
-      console.log(`Writing article for: ${item.title}`);
+      console.log(`Memproses berita: ${item.title}`);
 
       const prompt = `
-You are a professional US news reporter and SEO writer.
-Rewrite this trending news into an original, engaging article in native US English.
+You are an expert US news journalist and SEO copywriter.
+Rewrite this trending news into an engaging, 100% original news article in native US English.
 
 Source Headline: ${item.title}
-Source Snippet: ${item.contentSnippet || item.content || ''}
+Source Details: ${item.contentSnippet || item.content || ''}
 
-Instructions:
-1. Provide a brand new, catchy headline.
-2. Write a 300-400 word comprehensive article using clean HTML tags (<p>, <h2>, <h3>, <ul>, <li>).
-3. Output strictly a JSON object with these keys:
-   - "title": (string) The new headline
+Requirements:
+1. Write a new captivating headline.
+2. Write a 300-400 word well-structured article using HTML paragraphs (<p>), subheadings (<h2>), and unordered lists (<ul>, <li>).
+3. Return ONLY a valid JSON object without markdown fences, with these exact keys:
+   - "title": (string) The headline
    - "snippet": (string) Short 1-2 sentence meta description
-   - "content": (string) Full article body in clean HTML format
-   - "tags": (array of strings) 3-5 relevant US category/tags
-Do not wrap in backticks or markdown, just return raw JSON text.
+   - "content": (string) Article body in clean HTML format
+   - "tags": (array of strings) 3-5 relevant US category tags
 `;
 
       try {
-        // Beri timeout 20 detik agar tidak pernah nyangkut selamanya
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('API Timeout')), 20000));
-        const generatePromise = model.generateContent(prompt);
-
-        const response = await Promise.race([generatePromise, timeoutPromise]);
+        const response = await model.generateContent(prompt);
         let text = response.response.text().trim();
         
-        // Bersihkan formatting markdown jika ada
         text = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '');
 
         const articleData = JSON.parse(text);
@@ -72,9 +74,9 @@ Do not wrap in backticks or markdown, just return raw JSON text.
         articleData.sourceUrl = item.link;
 
         fs.writeFileSync(filePath, JSON.stringify(articleData, null, 2));
-        console.log(`Successfully created: ${slug}.json`);
+        console.log(`Berhasil disimpan: ${slug}.json`);
       } catch (err) {
-        console.error('Error generating:', item.title, err.message);
+        console.error('Gagal generate:', item.title, err.message);
       }
 
       await new Promise(r => setTimeout(r, 2000));
@@ -83,7 +85,7 @@ Do not wrap in backticks or markdown, just return raw JSON text.
     updatePostIndex(postsDir);
 
   } catch (error) {
-    console.error('Fatal error in news generator:', error);
+    console.error('Fatal error di generator:', error);
   }
 }
 
@@ -107,7 +109,7 @@ function updatePostIndex(postsDir) {
   }).filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   fs.writeFileSync(path.join(postsDir, 'index.json'), JSON.stringify(allPosts, null, 2));
-  console.log(`Updated posts manifest: index.json (${allPosts.length} articles).`);
+  console.log(`File manifest index.json diperbarui (${allPosts.length} artikel).`);
 }
 
 generateArticles();
