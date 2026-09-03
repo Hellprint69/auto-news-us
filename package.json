@@ -1,0 +1,12 @@
+{
+  "name": "auto-news-us",
+  "version": "1.0.0",
+  "main": "generator.js",
+  "scripts": {
+    "build": "node generator.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "rss-parser": "^3.13.0"
+  }
+}
