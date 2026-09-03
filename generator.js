@@ -13,40 +13,25 @@ const API_KEY = process.env.GEMINI_API_KEY;
 const RSS_URL = 'https://news.yahoo.com/rss/';
 
 async function callGemini(prompt) {
-  // Daftar kombinasi endpoint dan model yang valid
-  const targets = [
-    { ver: 'v1beta', model: 'gemini-2.5-flash' },
-    { ver: 'v1',     model: 'gemini-2.5-flash' },
-    { ver: 'v1beta', model: 'gemini-1.5-flash-8b' },
-    { ver: 'v1beta', model: 'gemini-2.0-flash-exp' }
-  ];
+  // Langsung gunakan gemini-3.6-flash sesuai rekomendasi resmi Google di log
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
+  
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { responseMimeType: "application/json" }
+    })
+  });
 
-  for (const target of targets) {
-    const url = `https://generativelanguage.googleapis.com/${target.ver}/models/${target.model}:generateContent?key=${API_KEY}`;
-    
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { responseMimeType: "application/json" }
-        })
-      });
-
-      if (!res.ok) {
-        const errText = await res.text();
-        console.warn(`Target ${target.ver}/${target.model} gagal (${res.status}):`, errText.substring(0, 100));
-        continue;
-      }
-
-      const data = await res.json();
-      return data.candidates[0].content.parts[0].text;
-    } catch (e) {
-      console.warn(`Fetch error pada ${target.model}:`, e.message);
-    }
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Status ${res.status}: ${errText}`);
   }
-  throw new Error('Semua target model API gagal.');
+
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text;
 }
 
 async function generateArticles() {
@@ -90,7 +75,9 @@ Return ONLY valid JSON matching this schema:
 `;
 
       try {
-        const text = await callGemini(prompt);
+        let text = await callGemini(prompt);
+        text = text.trim().replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '');
+
         const articleData = JSON.parse(text);
         articleData.slug = slug;
         articleData.date = new Date().toISOString();
