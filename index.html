@@ -3,42 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>US Daily Pulse - Breaking & Trending News</title>
-  <meta name="description" content="Get the latest trending news and stories across the United States.">
+  <title>US Daily Pulse - Breaking & Trending US News</title>
+  <meta name="description" content="Discover breaking news, politics, and trending stories across the United States.">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f5f7; color: #172b4d; line-height: 1.6; }
-    header { background: #091e42; color: #fff; padding: 32px 20px; text-align: center; border-bottom: 4px solid #0052cc; }
-    header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
+    header { background: #091e42; color: #fff; padding: 36px 20px; text-align: center; border-bottom: 4px solid #0052cc; }
+    header h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.5px; }
     header p { color: #b3d4ff; margin-top: 6px; font-size: 1rem; }
-    main { max-width: 860px; margin: 30px auto; padding: 0 16px; }
-    .news-grid { display: flex; flex-direction: column; gap: 18px; }
-    .news-card { background: #fff; padding: 22px; border-radius: 8px; box-shadow: 0 2px 6px rgba(9,30,66,0.08); transition: transform 0.15s ease, box-shadow 0.15s ease; }
-    .news-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(9,30,66,0.12); }
-    .news-card a { font-size: 1.35rem; font-weight: 700; color: #0052cc; text-decoration: none; display: inline-block; line-height: 1.3; }
-    .news-card a:hover { text-decoration: underline; }
-    .news-date { font-size: 0.82rem; color: #6b778c; margin: 8px 0 10px 0; display: block; font-weight: 500; }
-    .news-snippet { color: #42526e; font-size: 0.95rem; }
-    .tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+    main { max-width: 960px; margin: 36px auto; padding: 0 16px; }
+    
+    .news-grid { display: flex; flex-direction: column; gap: 20px; }
+    
+    .news-card { 
+      background: #fff; 
+      border-radius: 10px; 
+      overflow: hidden; 
+      box-shadow: 0 2px 8px rgba(9,30,66,0.08); 
+      display: flex; 
+      flex-direction: row; 
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .news-card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(9,30,66,0.12); }
+    
+    .card-thumb { 
+      width: 280px; 
+      min-width: 280px; 
+      background: #e1e4e8; 
+      position: relative;
+    }
+    .card-thumb img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      display: block; 
+    }
+    
+    .card-content { padding: 22px; display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
+    .card-content a { font-size: 1.3rem; font-weight: 700; color: #091e42; text-decoration: none; line-height: 1.35; }
+    .card-content a:hover { color: #0052cc; }
+    .news-date { font-size: 0.8rem; color: #6b778c; margin: 8px 0 10px 0; display: block; font-weight: 600; }
+    .news-snippet { color: #42526e; font-size: 0.95rem; margin-bottom: 14px; }
+    
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .tag { background: #ebecf0; color: #42526e; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
+    
     footer { text-align: center; padding: 40px 20px; color: #6b778c; font-size: 0.85rem; }
-    .loading { text-align: center; padding: 40px; font-size: 1.1rem; color: #6b778c; }
+    .loading { text-align: center; padding: 50px; font-size: 1.1rem; color: #6b778c; }
+
+    @media (max-width: 680px) {
+      .news-card { flex-direction: column; }
+      .card-thumb { width: 100%; min-width: 100%; height: 200px; }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>US Daily Pulse</h1>
-    <p>Automated Real-Time News & Analysis</p>
+    <p>Automated Real-Time News & Insights</p>
   </header>
 
   <main>
     <div id="posts" class="news-grid">
-      <div class="loading">Loading latest news articles...</div>
+      <div class="loading">Loading trending headlines...</div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2026 US Daily Pulse. Real-time trend aggregator.</p>
+    <p>&copy; 2026 US Daily Pulse. Real-time news aggregation.</p>
   </footer>
 
   <script>
@@ -50,25 +82,36 @@
       .then(posts => {
         const container = document.getElementById('posts');
         if (!posts || posts.length === 0) {
-          container.innerHTML = '<div class="news-card"><p>No news available yet. Check back shortly!</p></div>';
+          container.innerHTML = '<div style="background:#fff;padding:24px;border-radius:8px;"><p>No news available yet.</p></div>';
           return;
         }
 
         container.innerHTML = posts.map(p => {
           const dateStr = p.date ? new Date(p.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
           const tagsHtml = (p.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+          const imgUrl = p.image || '[https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80)';
+          
           return `
             <article class="news-card">
-              <a href="/post.html?slug=${p.slug}">${p.title}</a>
-              <span class="news-date">${dateStr}</span>
-              <p class="news-snippet">${p.snippet || ''}</p>
-              <div class="tags">${tagsHtml}</div>
+              <div class="card-thumb">
+                <a href="/post.html?slug=${p.slug}">
+                  <img src="${imgUrl}" alt="${p.title}" loading="lazy" onerror="this.src='[https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80)'">
+                </a>
+              </div>
+              <div class="card-content">
+                <div>
+                  <a href="/post.html?slug=${p.slug}">${p.title}</a>
+                  <span class="news-date">${dateStr}</span>
+                  <p class="news-snippet">${p.snippet || ''}</p>
+                </div>
+                <div class="tags">${tagsHtml}</div>
+              </div>
             </article>
           `;
         }).join('');
       })
       .catch(() => {
-        document.getElementById('posts').innerHTML = '<div class="news-card"><p>Welcome! Our automated bot will fetch the latest US news shortly.</p></div>';
+        document.getElementById('posts').innerHTML = '<div style="background:#fff;padding:24px;border-radius:8px;"><p>Syncing news feed. Please refresh in a moment.</p></div>';
       });
   </script>
 </body>
