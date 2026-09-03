@@ -13,11 +13,16 @@ const API_KEY = process.env.GEMINI_API_KEY;
 const RSS_URL = 'https://news.yahoo.com/rss/';
 
 async function callGemini(prompt) {
-  // Coba model gemini-2.5-flash, jika gagal coba gemini-2.0-flash
-  const models = ['gemini-2.5-flash', 'gemini-2.0-flash'];
-  
-  for (const model of models) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
+  // Daftar kombinasi endpoint dan model yang valid
+  const targets = [
+    { ver: 'v1beta', model: 'gemini-2.5-flash' },
+    { ver: 'v1',     model: 'gemini-2.5-flash' },
+    { ver: 'v1beta', model: 'gemini-1.5-flash-8b' },
+    { ver: 'v1beta', model: 'gemini-2.0-flash-exp' }
+  ];
+
+  for (const target of targets) {
+    const url = `https://generativelanguage.googleapis.com/${target.ver}/models/${target.model}:generateContent?key=${API_KEY}`;
     
     try {
       const res = await fetch(url, {
@@ -30,17 +35,18 @@ async function callGemini(prompt) {
       });
 
       if (!res.ok) {
-        console.warn(`Model ${model} gagal (${res.status}), mencoba model alternatif...`);
+        const errText = await res.text();
+        console.warn(`Target ${target.ver}/${target.model} gagal (${res.status}):`, errText.substring(0, 100));
         continue;
       }
 
       const data = await res.json();
       return data.candidates[0].content.parts[0].text;
     } catch (e) {
-      console.warn(`Fetch error pada ${model}:`, e.message);
+      console.warn(`Fetch error pada ${target.model}:`, e.message);
     }
   }
-  throw new Error('Semua model API gagal merespons.');
+  throw new Error('Semua target model API gagal.');
 }
 
 async function generateArticles() {
