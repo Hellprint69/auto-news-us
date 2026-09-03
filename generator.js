@@ -23,7 +23,7 @@ async function generateArticles() {
     
     // Ambil 3 berita teratas
     const items = feed.items.slice(0, 3);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const postsDir = path.join(__dirname, 'posts');
     if (!fs.existsSync(postsDir)) {
