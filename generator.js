@@ -16,9 +16,9 @@ async function generateArticles() {
     const items = feed.items.slice(0, 5);
     // Menggunakan gemini-2.5-flash untuk respon cepat & stabil
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.5-flash',
-      generationConfig: { responseMimeType: "application/json" }
-    });
+  model: 'gemini-3.6-flash',
+  generationConfig: { responseMimeType: "application/json" }
+});
 
     const postsDir = path.join(__dirname, 'posts');
     if (!fs.existsSync(postsDir)) {
