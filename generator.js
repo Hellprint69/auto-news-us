@@ -13,12 +13,9 @@ async function generateArticles() {
     console.log('Fetching US trending news...');
     const feed = await parser.parseURL(RSS_URL);
     
-    const items = feed.items.slice(0, 5);
-    // Menggunakan gemini-2.5-flash untuk respon cepat & stabil
-    const model = genAI.getGenerativeModel({ 
-  model: 'gemini-3.6-flash',
-  generationConfig: { responseMimeType: "application/json" }
-});
+    // Ambil 3 berita dulu untuk tes cepat
+    const items = feed.items.slice(0, 3);
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
 
     const postsDir = path.join(__dirname, 'posts');
     if (!fs.existsSync(postsDir)) {
@@ -49,19 +46,24 @@ Source Snippet: ${item.contentSnippet || item.content || ''}
 
 Instructions:
 1. Provide a brand new, catchy headline.
-2. Write a 400-600 word comprehensive article using HTML tags (<p>, <h2>, <h3>, <ul>, <li>).
-3. Return strictly a JSON object with keys:
-   - "title": string (the headline)
-   - "snippet": string (meta description)
-   - "content": string (HTML article body)
-   - "tags": array of 3-5 strings
+2. Write a 300-400 word comprehensive article using clean HTML tags (<p>, <h2>, <h3>, <ul>, <li>).
+3. Output strictly a JSON object with these keys:
+   - "title": (string) The new headline
+   - "snippet": (string) Short 1-2 sentence meta description
+   - "content": (string) Full article body in clean HTML format
+   - "tags": (array of strings) 3-5 relevant US category/tags
+Do not wrap in backticks or markdown, just return raw JSON text.
 `;
 
       try {
-        const response = await model.generateContent(prompt);
+        // Beri timeout 20 detik agar tidak pernah nyangkut selamanya
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('API Timeout')), 20000));
+        const generatePromise = model.generateContent(prompt);
+
+        const response = await Promise.race([generatePromise, timeoutPromise]);
         let text = response.response.text().trim();
         
-        // Pembersihan jika ada markdown formatting
+        // Bersihkan formatting markdown jika ada
         text = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '');
 
         const articleData = JSON.parse(text);
@@ -72,7 +74,7 @@ Instructions:
         fs.writeFileSync(filePath, JSON.stringify(articleData, null, 2));
         console.log(`Successfully created: ${slug}.json`);
       } catch (err) {
-        console.error('Error processing:', item.title, err.message);
+        console.error('Error generating:', item.title, err.message);
       }
 
       await new Promise(r => setTimeout(r, 2000));
