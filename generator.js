@@ -3,6 +3,13 @@ const path = require('path');
 const Parser = require('rss-parser');
 
 const parser = new Parser({
+  customFields: {
+    item: [
+      ['media:content', 'mediaContent'],
+      ['media:thumbnail', 'mediaThumbnail'],
+      ['enclosure', 'enclosure']
+    ]
+  },
   headers: {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
   },
@@ -13,7 +20,6 @@ const API_KEY = process.env.GEMINI_API_KEY;
 const RSS_URL = 'https://news.yahoo.com/rss/';
 
 async function callGemini(prompt) {
-  // Langsung gunakan gemini-3.6-flash sesuai rekomendasi resmi Google di log
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
   
   const res = await fetch(url, {
@@ -34,11 +40,28 @@ async function callGemini(prompt) {
   return data.candidates[0].content.parts[0].text;
 }
 
+function extractImage(item) {
+  // Cek media:content
+  if (item.mediaContent && item.mediaContent.$&& item.mediaContent.$.url) {
+    return item.mediaContent.$.url;
+  }
+  // Cek media:thumbnail
+  if (item.mediaThumbnail && item.mediaThumbnail.$&& item.mediaThumbnail.$.url) {
+    return item.mediaThumbnail.$.url;
+  }
+  // Cek enclosure
+  if (item.enclosure && item.enclosure.url) {
+    return item.enclosure.url;
+  }
+  // Fallback ke gambar berita random beresolusi tinggi
+  return 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80';
+}
+
 async function generateArticles() {
   try {
     console.log('Mengambil RSS Yahoo News...');
     const feed = await parser.parseURL(RSS_URL);
-    const items = feed.items.slice(0, 3);
+    const items = feed.items.slice(0, 4);
 
     const postsDir = path.join(__dirname, 'posts');
     if (!fs.existsSync(postsDir)) {
@@ -59,6 +82,7 @@ async function generateArticles() {
       }
 
       console.log(`Memproses berita: ${item.title}`);
+      const imageUrl = extractImage(item);
 
       const prompt = `
 You are a US news journalist. Rewrite this news into an original news article in native US English.
@@ -80,6 +104,7 @@ Return ONLY valid JSON matching this schema:
 
         const articleData = JSON.parse(text);
         articleData.slug = slug;
+        articleData.image = imageUrl;
         articleData.date = new Date().toISOString();
         articleData.sourceUrl = item.link;
 
@@ -107,6 +132,7 @@ function updatePostIndex(postsDir) {
       return {
         title: data.title,
         slug: data.slug,
+        image: data.image || '[https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80](https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80)',
         snippet: data.snippet,
         date: data.date,
         tags: data.tags
