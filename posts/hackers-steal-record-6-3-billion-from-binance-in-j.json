@@ -1,0 +1,17 @@
+{
+  "title": "Crypto World Rocked as Hackers Drain Record $6.3 Billion from Binance in Minutes",
+  "snippet": "In the largest cyber heist in digital asset history, hackers wiped $6.3 billion from Binance in a 20-minute raid that experts attribute to North Korean state-sponsored threat actors.",
+  "content": "<p>Binance, the world's largest cryptocurrency exchange, has suffered the largest cyber heist in digital asset history after attackers seized a staggering $6.3 billion in a lightning-fast raid lasting roughly 20 minutes. Leading blockchain intelligence firms TRM Labs and Chainalysis reported high confidence that elite North Korean state-sponsored hackers carried out the attack.</p><p>News of the record breach sent shockwaves through the crypto ecosystem. Bitcoin plunged to a six-week low of $76,368, while Ethereum and Binance's native token BNB both recorded steep losses. Crypto-adjacent equities took a hit as well, with shares of Coinbase Global dropping nearly 5% and MicroStrategy falling almost 6% in extended trading.</p><h2>An Engineer's Compromised Laptop</h2><p>Initial investigations indicate the attack originated from a compromised laptop belonging to a Binance engineer. Once inside the system, the perpetrators manipulated internal wallet operations to redirect billions into illicit wallets, echoing a similar high-profile breach attributed to North Korea by the FBI last year.</p><p>Former Mt. Gox CEO Mark Karpeles noted that the intruders likely obtained the private keys to multiple hot wallets. While Binance distributes its assets across compartmentalized infrastructure to contain potential breaches, the sheer volume drained highlights the sophistication of the exploit.</p><h2>Massive Freeze Effort and Fund Guarantee</h2><p>In response, Binance froze withdrawal services and pledged to resume operations within 45 hours. Co-CEO Richard Teng reassured users on social media platform X that client balances are fully protected, stating that the company's internal reserves alongside its $1 billion Secure Asset Fund for Users (SAFU) will cover all losses.</p><p>A coordinated global effort between Binance, law enforcement, and major Web3 entities quickly managed to trace and freeze nearly $3 billion of the stolen funds. Stablecoin issuers stepped in aggressively, with Tether freezing roughly $1.57 billion and Circle locking down over $800 million connected to the exploit. Ripple and World Liberty Financial also froze tens of millions in linked tokens.</p><h2>Wider Implications for the Digital Asset Sector</h2><p>The record-breaking assault raises renewed concerns regarding the safety of centralized exchanges at a time when digital asset markets are already navigating high macroeconomic interest rates and cautious institutional demand. Industry experts warn that the breach could severely dampen investor risk appetite and trigger tighter regulatory scrutiny surrounding exchange security protocols worldwide.</p>",
+  "tags": [
+    "Binance",
+    "Cryptocurrency",
+    "Cybersecurity",
+    "North Korea",
+    "Bitcoin",
+    "Hack"
+  ],
+  "slug": "hackers-steal-record-6-3-billion-from-binance-in-j",
+  "image": "https://media.zenfs.com/en/reuters.com/669d9970160e7b22441f55956761e71c.jpg",
+  "date": "2026-10-30T12:26:14.514Z",
+  "sourceUrl": "https://finance.yahoo.com/markets/crypto/articles/tether-circle-freeze-2-38-222607515.html"
+}
