@@ -1,0 +1,16 @@
+{
+  "title": "Major Microsoft 365 Outage Knocks Out Outlook, Teams, and Copilot for Thousands",
+  "snippet": "Microsoft is working to restore services after a major outage hit Outlook, Teams, SharePoint, and other Microsoft 365 products on Thursday afternoon.",
+  "content": "<p>A widespread technical outage disrupted operations for thousands of businesses and individuals Thursday afternoon, knocking out critical Microsoft 365 services including Outlook, Teams, SharePoint, and AI assistant Copilot.</p><p>According to outage monitoring platform Downdetector, reports of service disruptions began surging just before 1:00 p.m. ET. In early communications posted to X (formerly Twitter), Microsoft indicated it was investigating issues with Exchange Online mailboxes in the Americas. However, the tech giant later confirmed the connectivity issues could impact Microsoft 365 users globally.</p><h2>Traffic Overload Causes Global Disruption</h2><p>Microsoft attributed the widespread downtime to an \"elevated load\" on its infrastructure. In response, company engineers began redistributing connection traffic across server networks to alleviate pressure and stabilize access. Complicating matters further, the Microsoft admin center—the primary hub for IT administrators to monitor system health—also suffered downtime during the outage.</p><p>By 5:00 p.m. ET, Microsoft acknowledged that the outage remained active, noting that technical teams were continuing to aggressively pursue all available pathways to fully restore services.</p><h2>A Pattern of Cloud Disruption</h2><p>Thursday's incident marks another major disruption for the Redmond-based tech giant, following a severe multi-day Microsoft 365 outage in September that left millions of enterprise and individual users scrambling.</p><p><em>This is a developing story. Check back for updates.</em></p>",
+  "tags": [
+    "Microsoft",
+    "Outlook",
+    "Teams",
+    "Tech News",
+    "Outage"
+  ],
+  "slug": "microsoft-outlook-and-teams-hit-by-outages-as-comp",
+  "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80",
+  "date": "2026-11-12T23:22:52.384Z",
+  "sourceUrl": "https://tech.yahoo.com/general/breaking-news/article/microsoft-outlook-and-other-services-down-company-says-its-investigating-195506472.html"
+}
