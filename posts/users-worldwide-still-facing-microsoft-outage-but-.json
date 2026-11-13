@@ -1,0 +1,16 @@
+{
+  "title": "Global Microsoft Outage Paralyzes Workplaces Worldwide as Recovery Efforts Continue",
+  "snippet": "A massive Microsoft 365 outage has halted operations for millions of users, businesses, and government agencies across the globe, though Microsoft reports early signs of recovery.",
+  "content": "<p>A sweeping Microsoft outage continued to disrupt operations around the globe on Friday, leaving millions of users locked out of critical services like Outlook email, Teams, and SharePoint. The widespread technical failure impacted government agencies, major enterprises, and prominent artificial intelligence firms before the company reported incremental progress toward recovery.</p><p>The disruption targets core Microsoft 365 services powered by Exchange Online. With an estimated 400 million active Outlook users and 320 million people relying on Teams, the blackout paralyzed communication networks worldwide. Users also reported unexpected issues accessing Microsoft Word, Excel, and the AI assistant Copilot.</p><h2>Global Operations Grinding to a Halt</h2><p>The fallout was felt almost immediately across multiple sectors. On Capitol Hill, the outage stalled routine legislative work for the U.S. House of Representatives. Overseas, government agencies in Japan, Singapore, and Australia reported severe connectivity problems, while public health and law enforcement services in the United Kingdom faced administrative disruptions. In Taiwan, one financial institution was forced to revert to fax machines to manually verify trades.</p><p>Even tech-forward artificial intelligence leaders like OpenAI and Anthropic reported service disruptions linked to the underlying Microsoft infrastructure issues.</p><h2>Microsoft Cites Server Failure, Rules Out Cyberattack</h2><p>In a public status update on Friday morning, Microsoft noted that while a complete resolution remains elusive, service availability and email delivery performance are gradually improving. \"We're seeing encouraging recovery progress... Some users may still experience intermittent issues as recovery actions continue,\" the company stated via its official status account on X.</p><p>The tech giant attributed the disruption to a cluster of servers becoming \"unexpectedly unavailable.\" Charles Lamanna, an executive vice president at Microsoft, reassured users on social media that there was \"no indication this is the result of malicious or cyber activity.\" However, Australian Home Affairs Minister Tony Burke indicated Microsoft described the incident as reminiscent of the historic 2024 CrowdStrike outage.</p><p>This latest event marks another frustrating bottleneck for the software giant, following a similar days-long outage that hit Microsoft 365 services just last September.</p>",
+  "tags": [
+    "Microsoft",
+    "Tech Outage",
+    "Outlook",
+    "Microsoft 365",
+    "Breaking News"
+  ],
+  "slug": "users-worldwide-still-facing-microsoft-outage-but-",
+  "image": "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&auto=format&fit=crop&q=80",
+  "date": "2026-11-13T14:16:34.588Z",
+  "sourceUrl": "https://tech.yahoo.com/general/breaking-news/article/microsoft-outlook-and-other-services-down-company-says-its-investigating-195506472.html"
+}
