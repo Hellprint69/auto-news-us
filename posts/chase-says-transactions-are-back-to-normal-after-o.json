@@ -1,0 +1,17 @@
+{
+  "title": "Chase Restores Online and Branch Services Following Nationwide System Glitch",
+  "snippet": "Chase Bank announced Monday evening that transaction processing has returned to normal after an internal hardware glitch disrupted online access, branch operations, and Zelle payments nationwide.",
+  "content": "<p>Chase Bank announced Monday evening that its services have fully recovered following a nationwide technical glitch that left customers unable to access accounts, execute transfers, or complete in-branch transactions for much of the day.</p><p>The disruption began Monday morning, prompting widespread customer complaints over error messages online and slowness at physical locations. By 6:30 p.m. ET, a spokesperson for JPMorgan Chase confirmed that transactions were once again posting normally.</p><h2>Internal Hardware Bug to Blame</h2><p>In a statement issued on X (formerly Twitter), the bank clarified that the issue stemmed from a temporary software bug within an on-premise hardware system. Bank officials emphasized that the incident was not cyber-related and did not represent a breach of customer data.</p><p>Regulators were alerted early in the day and determined that the issue was contained to Chase's internal retail banking infrastructure, allowing recovery efforts to move quickly.</p><h2>Domino Effect on Interbank Transfers</h2><p>While Chase maintained that customer funds were secure throughout the day, the internal bottleneck caused ripple effects across the broader financial network. Popular peer-to-peer payment platform Zelle reported that its systems remained fully operational, but transfers involving Chase accounts experienced significant delays.</p><p>Other major financial institutions—including U.S. Bank, PNC, and Wells Fargo—noted that while their own internal networks were unaffected, clients attempting to move money to or from Chase accounts faced temporary friction.</p><h2>Part of a Troubling Trend</h2><p>The operational hiccup at Chase, which serves roughly 94 million customer relationships across 5,000 branches and 15,000 ATMs, comes during a turbulent week for national infrastructure. Last week saw a multi-day Microsoft Outlook outage alongside a nationwide FAA ground stop caused by a botched facility upgrade.</p><p>Federal authorities stressed there is no evidence connecting the Chase system glitch to the recent IT failures at Microsoft or the FAA. By Monday evening, walk-in traffic at Chase branches across major metropolitan areas had returned to standard operations.</p>",
+  "tags": [
+    "Chase Bank",
+    "Banking Outage",
+    "JPMorgan Chase",
+    "Zelle",
+    "Tech News",
+    "Finance"
+  ],
+  "slug": "chase-says-transactions-are-back-to-normal-after-o",
+  "image": "https://media.zenfs.com/en/nbc_news_122/626d36caa6ac0f1876651dbaf444960b.jpg",
+  "date": "2026-11-17T01:45:35.789Z",
+  "sourceUrl": "https://www.nbcnews.com/business/consumer/outages-chase-banking-online-branches-rcna609673"
+}
